@@ -10,7 +10,9 @@ public class SnekPart implements ISnekPart {
     private SnekPartType type;
 
     public SnekPart (SnekPartType type, int x, int y) {
-
+        this.type = type;
+        this.x = x;
+        this.y = y;
     }
 
     @Override

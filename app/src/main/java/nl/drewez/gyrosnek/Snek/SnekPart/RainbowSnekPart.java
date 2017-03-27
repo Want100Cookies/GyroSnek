@@ -9,7 +9,9 @@ public class RainbowSnekPart implements ISnekPart {
     private SnekPartType type;
 
     public RainbowSnekPart (SnekPartType type, int x, int y) {
-
+        this.type = type;
+        this.x = x;
+        this.y = y;
     }
     @Override
     public Drawable getDrawable(Context context) {
