@@ -3,36 +3,35 @@ package nl.drewez.gyrosnek.SnekFood;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-
 import nl.drewez.gyrosnek.R;
 
-public class CheeseBurger implements ISnekFood {
+public class HotDog implements ISnekFood {
     private int score = 1;
     private int y;
     private int x;
 
-    public CheeseBurger(int x, int y) {
+    public HotDog(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
     public Drawable getDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.drawable.cheese_burger);
+        return ContextCompat.getDrawable(context, R.drawable.hog_dog);
     }
 
     @Override
     public int getScore() {
-        return this.score;
+        return 0;
     }
 
     @Override
     public int getX() {
-        return this.x;
+        return 0;
     }
 
     @Override
     public int getY() {
-        return this.y;
+        return 0;
     }
 }
