@@ -17,7 +17,7 @@ public class HotDog implements ISnekFood {
 
     @Override
     public Drawable getDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.drawable.pizza);
+        return ContextCompat.getDrawable(context, R.drawable.hot_dog);
     }
 
     @Override
