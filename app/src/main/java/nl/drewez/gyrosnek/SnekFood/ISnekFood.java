@@ -5,7 +5,10 @@ import android.graphics.drawable.Drawable;
 
 public interface ISnekFood {
     Drawable getDrawable(Context context);
+
     int getScore();
+
     int getX();
+
     int getY();
 }

@@ -3,6 +3,6 @@
     <integer name="cols">25</integer>
     <integer name="rows">10</integer>
     <integer name="init_start_x">5</integer>
-    <integer name="init_end_x">9</integer>
+    <integer name="init_end_x">7</integer>
     <integer name="init_y">5</integer>
 </resources>

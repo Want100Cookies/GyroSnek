@@ -3,6 +3,7 @@ package nl.drewez.gyrosnek.SnekFood;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+
 import nl.drewez.gyrosnek.R;
 
 public class HotDog implements ISnekFood {
@@ -22,16 +23,16 @@ public class HotDog implements ISnekFood {
 
     @Override
     public int getScore() {
-        return 0;
+        return this.score;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return this.y;
     }
 }

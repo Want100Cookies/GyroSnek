@@ -1,31 +1,35 @@
 package nl.drewez.gyrosnek.Snek;
 
+import android.content.Context;
+
 import nl.drewez.gyrosnek.Direction;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
+import nl.drewez.gyrosnek.Snek.SnekPart.RainbowSnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 
+public class InvisibleSnek extends Snek implements ISnek {
+    protected double multiplier = 1.2;
+    protected Class snekPartType = InvisibleSnek.class;
 
-public class InvisibleSnek implements ISnek {
-    private int multiplier;
-    private ISnekPart[] snekParts;
-    private Score score;
+    private static int moves = 0;
+    private int maxMoves = 15;
 
-    public InvisibleSnek() {
+    public InvisibleSnek(Context context) {
+        super(context);
+    }
 
+    public InvisibleSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
+        super(context, currentSnekParts, currentScore);
     }
 
     @Override
-    public boolean move(Direction direction, ISnekFood[] snekBar, SnekContext context) {
-        return false;
-    }
+    public boolean move(Direction direction, ISnekFood[] snekBar, SnekContext snekContext) {
+        boolean ded = super.move(direction, snekBar, snekContext);
 
-    @Override
-    public Score getScore() {
-        return null;
-    }
+        if (moves++ > maxMoves) { // Only have invisible snek for <maxMoves> then go back to normal snek
+            snekContext.setSnek(new Snek(super.viewContext, super.snekParts, super.score));
+        }
 
-    @Override
-    public ISnekPart[] getSnekParts() {
-        return new ISnekPart[0];
+        return ded;
     }
 }

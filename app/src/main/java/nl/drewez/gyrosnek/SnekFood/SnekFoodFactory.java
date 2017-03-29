@@ -47,16 +47,15 @@ public class SnekFoodFactory implements ISnekFoodFactory {
         return snekBar;
     }
 
-    private ArrayList<Point> getUnavailablePixels(ISnekFood[] currentFood, ISnek snek)
-    {
+    private ArrayList<Point> getUnavailablePixels(ISnekFood[] currentFood, ISnek snek) {
         ArrayList<Point> unavailable = new ArrayList<>();
 
-        for (ISnekFood food: currentFood) {
+        for (ISnekFood food : currentFood) {
             Point foodPoint = new Point(food.getX(), food.getY());
             unavailable.add(unavailable.size(), foodPoint);
         }
 
-        for (ISnekPart snekPart: snek.getSnekParts()) {
+        for (ISnekPart snekPart : snek.getSnekParts()) {
             Point snekPoint = new Point(snekPart.getX(), snekPart.getY());
             unavailable.add(unavailable.size(), snekPoint);
         }
@@ -64,8 +63,7 @@ public class SnekFoodFactory implements ISnekFoodFactory {
         return unavailable;
     }
 
-    private ArrayList<Point> getAvailablePixels(ArrayList<Point> unavailablePoints, Context context)
-    {
+    private ArrayList<Point> getAvailablePixels(ArrayList<Point> unavailablePoints, Context context) {
         int rows = context.getResources().getInteger(R.integer.rows);
         int cols = context.getResources().getInteger(R.integer.cols);
 
