@@ -17,11 +17,11 @@ import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 import nl.drewez.gyrosnek.SnekFood.Pizza;
 
 public class Snek implements ISnek {
-    protected double multiplier = 1;
+    protected static final double multiplier = 1;
+    protected static final Class snekPartType = SnekPart.class;
     protected ISnekPart[] snekParts;
     protected Score score = new Score();
     protected Context viewContext;
-    protected Class snekPartType = SnekPart.class;
 
     public Snek(Context context) {
         this.score.setScore(0);

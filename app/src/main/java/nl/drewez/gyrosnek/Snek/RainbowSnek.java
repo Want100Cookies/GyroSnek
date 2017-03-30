@@ -15,8 +15,8 @@ import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 import nl.drewez.gyrosnek.SnekFood.Pizza;
 
 public class RainbowSnek extends Snek implements ISnek {
-    protected double multiplier = 1.2;
-    protected Class snekPartType = RainbowSnekPart.class;
+    protected static final double multiplier = 1.2;
+    protected static final Class snekPartType = RainbowSnekPart.class;
 
     private static int moves = 0;
     private int maxMoves = 50;

@@ -14,8 +14,8 @@ import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 import nl.drewez.gyrosnek.SnekFood.Pizza;
 
 public class SpeedSnek extends Snek implements ISnek {
-    protected double multiplier = 1.2;
-    protected Class snekPartType = SpeedSnek.class;
+    protected static final double multiplier = 1.2;
+    protected static final Class snekPartType = SpeedSnek.class;
 
     private static int moves = 0;
     private int maxMoves = 20;

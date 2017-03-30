@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 import nl.drewez.gyrosnek.R;
 
 public class CheeseBurger implements ISnekFood {
-    private int score = 1;
+    private static final int score = 1;
     private int y;
     private int x;
 

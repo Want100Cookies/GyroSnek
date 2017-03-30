@@ -8,8 +8,8 @@ import nl.drewez.gyrosnek.Snek.SnekPart.RainbowSnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 
 public class InvisibleSnek extends Snek implements ISnek {
-    protected double multiplier = 1.2;
-    protected Class snekPartType = InvisibleSnek.class;
+    protected static final double multiplier = 1.2;
+    protected static final Class snekPartType = InvisibleSnek.class;
 
     private static int moves = 0;
     private int maxMoves = 15;
