@@ -1,28 +1,17 @@
 package nl.drewez.gyrosnek.Views;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import nl.drewez.gyrosnek.R;
 
 public class StartActivity extends AppCompatActivity {
 
     private View mContentView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +42,7 @@ public class StartActivity extends AppCompatActivity {
                 Intent intent = new Intent(_this, GameActivity.class);
                 startActivity(intent);
             }
-        }, 1000);
+        }, 2000);
 
     }
 }

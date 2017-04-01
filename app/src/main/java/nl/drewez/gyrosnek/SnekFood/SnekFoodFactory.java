@@ -3,9 +3,7 @@ package nl.drewez.gyrosnek.SnekFood;
 import android.content.Context;
 import android.graphics.Point;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import nl.drewez.gyrosnek.R;

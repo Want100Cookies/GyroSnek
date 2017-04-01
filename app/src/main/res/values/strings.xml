@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">GyroSnek</string>
 
-    <string name="title_activity_start">StartActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_start">Snek</string>
 
-    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_game">Snek</string>
+
+    <string name="welcome">SNEK!\nPress screen to start</string>
 </resources>

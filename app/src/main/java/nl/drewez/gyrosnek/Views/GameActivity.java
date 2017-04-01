@@ -1,15 +1,9 @@
 package nl.drewez.gyrosnek.Views;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
 
 import nl.drewez.gyrosnek.R;
 
@@ -37,19 +31,20 @@ public class GameActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+    }
 
+    @Override
+    public void onBackPressed() {
+        // no-op
     }
 }

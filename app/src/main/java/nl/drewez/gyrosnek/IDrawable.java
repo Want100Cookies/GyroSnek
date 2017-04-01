@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 
 public interface IDrawable {
     Drawable getDrawable(Context context);
+
     int getX();
+
     int getY();
 }

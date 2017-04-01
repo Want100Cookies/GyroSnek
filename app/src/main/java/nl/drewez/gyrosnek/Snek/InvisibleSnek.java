@@ -4,7 +4,6 @@ import android.content.Context;
 
 import nl.drewez.gyrosnek.Direction;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
-import nl.drewez.gyrosnek.Snek.SnekPart.RainbowSnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 
 public class InvisibleSnek extends Snek implements ISnek {

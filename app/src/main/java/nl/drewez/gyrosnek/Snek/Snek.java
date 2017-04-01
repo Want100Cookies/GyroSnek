@@ -2,8 +2,6 @@ package nl.drewez.gyrosnek.Snek;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +15,6 @@ import nl.drewez.gyrosnek.SnekFood.CheeseBurger;
 import nl.drewez.gyrosnek.SnekFood.HotDog;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 import nl.drewez.gyrosnek.SnekFood.Pizza;
-import nl.drewez.gyrosnek.Views.GameView;
 
 public class Snek implements ISnek {
     private static final String TAG = Snek.class.getSimpleName();
@@ -42,11 +39,11 @@ public class Snek implements ISnek {
         Log.d(TAG, "Init snek length: " + initLength);
 
         for (int i = 1; i < initLength; i++) {
-            // Todo: fix NullPointerException due to snekParts[0] not existing yet...
             snekParts[i] = createSnekPart(SnekPartType.Middle, startX + i, row, snekParts[i - 1]);
         }
 
         snekParts[0] = createSnekPart(SnekPartType.Head, startX, row, snekParts[1]);
+        snekParts[1] = createSnekPart(SnekPartType.Middle, startX + 1, row, snekParts[0]);
         snekParts[initLength - 1] = createSnekPart(SnekPartType.Tail, endX, row, snekParts[initLength - 2]);
     }
 
@@ -79,6 +76,7 @@ public class Snek implements ISnek {
     @Override
     public boolean move(Direction direction, ISnekFood[] snekBar, SnekContext snekContext) {
         Point currentPixel = new Point(snekParts[0].getX(), snekParts[0].getY());
+        Point previousPixel = new Point(snekParts[1].getX(), snekParts[1].getY());
         int maxY = viewContext.getResources().getInteger(R.integer.rows);
         int maxX = viewContext.getResources().getInteger(R.integer.cols);
 
@@ -88,30 +86,45 @@ public class Snek implements ISnek {
                     // Can't move outside grid
                     return false;
                 }
+
+                if (currentPixel.equals(previousPixel)) {
+                    // If try to move if opposite direction, don't...
+                    return move(Direction.Down, snekBar, snekContext);
+                }
                 break;
             case Right:
                 if ((currentPixel.x++) > maxX) {
                     return false;
+                }
+
+                if (currentPixel.equals(previousPixel)) {
+                    return move(Direction.Left, snekBar, snekContext);
                 }
                 break;
             case Down:
                 if ((currentPixel.y++) > maxY) {
                     return false;
                 }
+
+                if (currentPixel.equals(previousPixel)) {
+                    return move(Direction.Up, snekBar, snekContext);
+                }
                 break;
             case Left:
                 if ((currentPixel.x--) < 0) {
                     return false;
                 }
+
+                if (currentPixel.equals(previousPixel)) {
+                    return move(Direction.Right, snekBar, snekContext);
+                }
                 break;
         }
-
 
         // Remove last snekPart
         ISnekPart[] newParts = new ISnekPart[snekParts.length];
 
         for (int i = 0; i < snekParts.length; i++) {
-            // Todo: test this, not sure it works
             newParts[(i + 1) % snekParts.length] = snekParts[i];
         }
 
@@ -119,7 +132,7 @@ public class Snek implements ISnek {
                 SnekPartType.Head,
                 currentPixel.x,
                 currentPixel.y,
-                snekParts[snekParts.length - 1]
+                newParts[1]
         );
         newParts[1] = createSnekPart(
                 SnekPartType.Middle,
@@ -147,6 +160,7 @@ public class Snek implements ISnek {
         ISnekFood snekFood = getSnekFood(snekBar, currentPixel.x, currentPixel.y);
 
         if (snekFood != null) {
+            Log.d(TAG, "Found food!");
             processFood(snekFood, direction, snekContext);
         }
 
@@ -164,21 +178,19 @@ public class Snek implements ISnek {
     }
 
     protected ISnekFood getSnekFood(ISnekFood[] snekBar, int x, int y) {
-        for (ISnekFood snekFood : snekBar) {
-            if (snekFood.getX() == x && snekFood.getY() == y) {
-                return snekFood;
+        for (int i = 0; i < snekBar.length; i++) {
+            if (snekBar[i].getX() == x && snekBar[i].getY() == y) {
+                ISnekFood found = snekBar[i];
+                snekBar[i] = null;
+
+                return found;
             }
         }
 
         return null;
     }
 
-    protected ISnekPart createSnekPart(@NonNull SnekPartType type, int x, int y, @NonNull ISnekPart previousSnekPart) {
-        if (previousSnekPart == null) {
-            throw new NullPointerException("Can't pass null to createSnekPart!");
-        }
-
-
+    protected ISnekPart createSnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
         try {
             return (ISnekPart) snekPartType
                     .getConstructor(SnekPartType.class, int.class, int.class, ISnekPart.class)
@@ -200,24 +212,27 @@ public class Snek implements ISnek {
         ISnekPart[] newSnek = new ISnekPart[snekParts.length + 1];
         System.arraycopy(snekParts, 0, newSnek, 0, snekParts.length);
 
-        int newX, newY;
+        int newX = newSnek[newSnek.length - 2].getX();
+        int newY = newSnek[newSnek.length - 2].getY();
 
         if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
                 newSnek[newSnek.length - 2].getY() < newSnek[newSnek.length - 3].getY()) {
-            newX = newSnek[newSnek.length - 2].getX();
-            newY = newSnek[newSnek.length - 2].getY() - 1;
+            newY++;
+
         } else if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
                 newSnek[newSnek.length - 2].getY() > newSnek[newSnek.length - 3].getY()) {
-            newX = newSnek[newSnek.length - 2].getX();
-            newY = newSnek[newSnek.length - 2].getY() + 1;
+            newY--;
+
         } else if (newSnek[newSnek.length - 2].getX() < newSnek[newSnek.length - 3].getX() &&
                 newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
-            newX = newSnek[newSnek.length - 2].getX() - 1;
-            newY = newSnek[newSnek.length - 2].getY();
-        } else {
-            newX = newSnek[newSnek.length - 2].getX() + 1;
-            newY = newSnek[newSnek.length - 2].getY();
+            newX++;
+
+        } else if (newSnek[newSnek.length - 2].getX() > newSnek[newSnek.length - 3].getX() &&
+                newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
+            newX--;
         }
+
+        // Todo: Fix wrong tail alignment on feed time
 
         newSnek[newSnek.length - 1] = createSnekPart(
                 SnekPartType.Tail,
@@ -231,11 +246,12 @@ public class Snek implements ISnek {
                 newSnek[newSnek.length - 2].getX(),
                 newSnek[newSnek.length - 3]);
 
+        snekParts = newSnek;
+
         this.score.setScore(this.score.getScore() + (int) ((double) snekFood.getScore() * this.multiplier));
 
         if (snekContext.getSnek() instanceof Snek) { // Only change state if current state is Snek
             if (snekFood instanceof HotDog) {
-                // Todo: give current snekParts and score to next snek
                 snekContext.setSnek(new InvisibleSnek(this.viewContext, this.snekParts, this.score));
             }
 

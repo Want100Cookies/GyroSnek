@@ -92,6 +92,10 @@ public class GameView extends View {
         canvas.drawColor(Color.WHITE);
 
         for (IDrawable drawable : snekController.getDrawables()) {
+            if (drawable == null) {
+                continue;
+            }
+
             int x = getXForBlock(drawable.getX());
             int y = getYForBlock(drawable.getY());
             Drawable image = drawable.getDrawable(getContext());

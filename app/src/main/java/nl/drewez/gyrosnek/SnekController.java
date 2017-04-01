@@ -5,12 +5,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Debug;
 import android.os.Handler;
-import android.util.Log;
 
-import java.io.Console;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import nl.drewez.gyrosnek.Snek.ISnek;
 import nl.drewez.gyrosnek.Snek.ISnekFactory;
@@ -35,7 +33,7 @@ public class SnekController implements SensorEventListener {
     private Handler tickHandler;
     private Runnable tick;
     private static final int tickTime = 1000; // Tick time in ms
-    private static final int foodTime = 10; // Generate food every x ticks
+    private static final int foodTime = 20; // Generate food every x ticks
     private int currentTick = 0;
 
     private SensorManager mSensorManager;
@@ -84,7 +82,7 @@ public class SnekController implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL,
                 SensorManager.SENSOR_DELAY_UI);
 
-        this.tickHandler.postDelayed(tick, tickTime);
+        tick.run();
     }
 
     public void pause() {
@@ -126,22 +124,25 @@ public class SnekController implements SensorEventListener {
                 this.snekBar,
                 this.snekContext);
 
+        this.snekBar = removeNulls(this.snekBar);
+
         if (!canMove) {
             stop();
         }
-//        if ((++this.currentTick % this.foodTime) == 0) {
-//            // Only make food every <this.foodTime> ticks
-//            this.snekBar = this.foodFactory.createSnekBar(
-//                    this.snekBar,
-//                    snek,
-//                    this.view.getContext());
-//        }
+
+        if ((++this.currentTick % foodTime) == 0) {
+            // Only make food every <this.foodTime> ticks
+            this.snekBar = this.foodFactory.createSnekBar(
+                    this.snekBar,
+                    snek,
+                    this.view.getContext());
+        }
 
         // Redraw screen
         view.invalidate();
     }
 
-    public Direction getDirection() {
+    private Direction getDirection() {
         updateOrientationAngles();
 
         // index 2 = negative -> down, positive -> up
@@ -185,16 +186,28 @@ public class SnekController implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        // no-op
     }
 
     private void updateOrientationAngles() {
-        mSensorManager.getRotationMatrix(
+        SensorManager.getRotationMatrix(
                 mRotationMatrix,
                 null,
                 mAccelerometerReading,
                 mMagnetometerReading);
 
-        mSensorManager.getOrientation(mRotationMatrix, mOrientationAngles);
+        SensorManager.getOrientation(mRotationMatrix, mOrientationAngles);
+    }
+
+    private ISnekFood[] removeNulls(ISnekFood[] objects) {
+        List<ISnekFood> newList = new ArrayList<>();
+
+        for (ISnekFood obj : objects) {
+            if (obj != null) {
+                newList.add(obj);
+            }
+        }
+
+        return newList.toArray(new ISnekFood[0]);
     }
 }

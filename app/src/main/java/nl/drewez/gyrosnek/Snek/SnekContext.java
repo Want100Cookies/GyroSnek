@@ -13,6 +13,7 @@ public class SnekContext {
     }
 
     public void setSnek(ISnek snek) {
+        // Todo: test state switching (first implement other sneks)
 //        this.currentSnek = snek;
     }
 }

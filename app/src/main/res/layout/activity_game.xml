@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    tools:context="nl.drewez.gyrosnek.Views.GameActivity">
+    tools:context="nl.drewez.gyrosnek.Views.GameActivity"
+    android:keepScreenOn="true">
 
     <nl.drewez.gyrosnek.Views.GameView
         android:id="@+id/game_view"

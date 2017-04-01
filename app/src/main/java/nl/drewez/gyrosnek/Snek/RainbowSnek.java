@@ -1,18 +1,11 @@
 package nl.drewez.gyrosnek.Snek;
 
 import android.content.Context;
-import android.graphics.Point;
 
 import nl.drewez.gyrosnek.Direction;
-import nl.drewez.gyrosnek.R;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
 import nl.drewez.gyrosnek.Snek.SnekPart.RainbowSnekPart;
-import nl.drewez.gyrosnek.Snek.SnekPart.SnekPart;
-import nl.drewez.gyrosnek.Snek.SnekPart.SnekPartType;
-import nl.drewez.gyrosnek.SnekFood.CheeseBurger;
-import nl.drewez.gyrosnek.SnekFood.HotDog;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
-import nl.drewez.gyrosnek.SnekFood.Pizza;
 
 public class RainbowSnek extends Snek implements ISnek {
     protected static final double multiplier = 1.2;
