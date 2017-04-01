@@ -13,6 +13,6 @@ public class SnekContext {
     }
 
     public void setSnek(ISnek snek) {
-        this.currentSnek = snek;
+//        this.currentSnek = snek;
     }
 }

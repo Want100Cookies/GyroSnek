@@ -10,17 +10,19 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.Console;
+import java.lang.reflect.Array;
 
 import nl.drewez.gyrosnek.Snek.ISnek;
 import nl.drewez.gyrosnek.Snek.ISnekFactory;
 import nl.drewez.gyrosnek.Snek.SnekContext;
 import nl.drewez.gyrosnek.Snek.SnekFactory;
+import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 import nl.drewez.gyrosnek.SnekFood.ISnekFoodFactory;
 import nl.drewez.gyrosnek.SnekFood.SnekFoodFactory;
 import nl.drewez.gyrosnek.Views.GameView;
 
-public class SnekController implements SensorEventListener{
+public class SnekController implements SensorEventListener {
     private static final String TAG = SnekController.class.getSimpleName();
 
     private SnekContext snekContext;
@@ -32,7 +34,7 @@ public class SnekController implements SensorEventListener{
 
     private Handler tickHandler;
     private Runnable tick;
-    private static final int tickTime = 100; // Tick time in ms
+    private static final int tickTime = 1000; // Tick time in ms
     private static final int foodTime = 10; // Generate food every x ticks
     private int currentTick = 0;
 
@@ -46,25 +48,25 @@ public class SnekController implements SensorEventListener{
     public SnekController(GameView view) {
         this.view = view;
 
-        this.mSensorManager = (SensorManager) view.getContext().getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) view.getContext().getSystemService(Context.SENSOR_SERVICE);
 
-        this.foodFactory = new SnekFoodFactory();
-        this.snekFactory = new SnekFactory();
+        foodFactory = new SnekFoodFactory();
+        snekFactory = new SnekFactory();
 
-        this.snekContext = new SnekContext(this.snekFactory.createSnek(this.view.getContext()));
+        snekContext = new SnekContext(snekFactory.createSnek(view.getContext()));
 
-        this.snekBar = this.foodFactory.createSnekBar(
+        snekBar = foodFactory.createSnekBar(
                 new ISnekFood[0],
-                this.snekContext.getSnek(),
-                this.view.getContext());
+                snekContext.getSnek(),
+                view.getContext());
 
-        this.tickHandler = new Handler();
-        this.tick = new Runnable() {
+        tickHandler = new Handler();
+        tick = new Runnable() {
             @Override
             public void run() {
                 tick();
 
-                start();
+                tickHandler.postDelayed(tick, tickTime);
             }
         };
     }
@@ -82,17 +84,16 @@ public class SnekController implements SensorEventListener{
                 SensorManager.SENSOR_DELAY_NORMAL,
                 SensorManager.SENSOR_DELAY_UI);
 
-        this.tickHandler.postDelayed(this.tick, this.tickTime);
+        this.tickHandler.postDelayed(tick, tickTime);
     }
 
     public void pause() {
         mSensorManager.unregisterListener(this);
-        tickHandler.removeCallbacks(this.tick);
+        tickHandler.removeCallbacks(tick);
     }
 
     public void stop() {
-        this.pause();
-
+        pause();
 
 
         // Todo: get score
@@ -100,21 +101,34 @@ public class SnekController implements SensorEventListener{
     }
 
     public ISnek getSnek() {
-        return this.snekContext.getSnek();
+        return snekContext.getSnek();
     }
 
     public ISnekFood[] getSnekBar() {
-        return this.snekBar;
+        return snekBar;
+    }
+
+    public IDrawable[] getDrawables() {
+        ISnekPart[] snekParts = snekContext.getSnek().getSnekParts();
+        IDrawable[] drawables = new IDrawable[snekParts.length + snekBar.length];
+
+        System.arraycopy(snekParts, 0, drawables, 0, snekParts.length);
+        System.arraycopy(snekBar, 0, drawables, snekParts.length, snekBar.length);
+
+        return drawables;
     }
 
     private void tick() {
-//        ISnek snek = this.snekContext.getSnek();
-//
-//        snek.move(
-//                this.getDirection(),
-//                this.snekBar,
-//                this.snekContext);
-//
+        ISnek snek = this.snekContext.getSnek();
+
+        boolean canMove = snek.move(
+                this.getDirection(),
+                this.snekBar,
+                this.snekContext);
+
+        if (!canMove) {
+            stop();
+        }
 //        if ((++this.currentTick % this.foodTime) == 0) {
 //            // Only make food every <this.foodTime> ticks
 //            this.snekBar = this.foodFactory.createSnekBar(
@@ -124,11 +138,11 @@ public class SnekController implements SensorEventListener{
 //        }
 
         // Redraw screen
-        this.view.invalidate();
+        view.invalidate();
     }
 
     public Direction getDirection() {
-        this.updateOrientationAngles();
+        updateOrientationAngles();
 
         // index 2 = negative -> down, positive -> up
         // index 1 = negative -> right, positive -> left

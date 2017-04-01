@@ -14,8 +14,8 @@ import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
 
 public class SnekFoodFactory implements ISnekFoodFactory {
     private static final Random random = new Random();
-    private static final int MinNoOfFoods = 0;
-    private static final int MaxNoOfFoods = 5;
+    private static final int MinNoOfFoods = 1;
+    private static final int MaxNoOfFoods = 3;
 
     @Override
     public ISnekFood[] createSnekBar(ISnekFood[] currentFood, ISnek snek, Context context) {
