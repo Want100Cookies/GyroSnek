@@ -23,8 +23,8 @@ public class SnekPart implements ISnekPart {
         this.y = y;
 
         if (previousSnekPart != null) {
-            this.previousX = previousSnekPart.getX();
-            this.previousY = previousSnekPart.getY();
+            previousX = previousSnekPart.getX();
+            previousY = previousSnekPart.getY();
         }
     }
 
@@ -65,6 +65,7 @@ public class SnekPart implements ISnekPart {
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
         return new BitmapDrawable(context.getResources(), bitmap);
     }
 

@@ -5,5 +5,13 @@
 
     <string name="title_activity_game">Snek</string>
 
-    <string name="welcome">SNEK!\nPress screen to start</string>
+    <string name="welcome">SNEK!</string>
+    <string name="paused">PAUSED</string>
+    <string name="continue_snek">Press left side of screen to continue</string>
+    <string name="stop_snek">Press the right side to top</string>
+
+    <string name="title_activity_score">Finished snek</string>
+
+    <string name="score">Earned score:\n</string>
+    <string name="restart_snek">Press the screen to start again</string>
 </resources>

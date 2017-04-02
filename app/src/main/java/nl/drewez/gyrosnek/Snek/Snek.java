@@ -20,7 +20,7 @@ public class Snek implements ISnek {
     private static final String TAG = Snek.class.getSimpleName();
 
     protected static final double multiplier = 1;
-    protected static final Class snekPartType = SnekPart.class;
+    protected static final Class<SnekPart> snekPartType = SnekPart.class;
     protected ISnekPart[] snekParts;
     protected Score score = new Score();
     protected Context viewContext;
@@ -36,7 +36,6 @@ public class Snek implements ISnek {
 
         int initLength = Math.abs(startX - endX) + 1;
         this.snekParts = new ISnekPart[initLength];
-        Log.d(TAG, "Init snek length: " + initLength);
 
         for (int i = 1; i < initLength; i++) {
             snekParts[i] = createSnekPart(SnekPartType.Middle, startX + i, row, snekParts[i - 1]);
@@ -77,6 +76,50 @@ public class Snek implements ISnek {
     public boolean move(Direction direction, ISnekFood[] snekBar, SnekContext snekContext) {
         Point currentPixel = new Point(snekParts[0].getX(), snekParts[0].getY());
         Point previousPixel = new Point(snekParts[1].getX(), snekParts[1].getY());
+
+        // Check if we can move (returns null if not)
+        currentPixel = canSnekMove(currentPixel, direction);
+
+        if (currentPixel == null) {
+            return false;
+        }
+
+        if (currentPixel.equals(previousPixel)) {
+            // If try to move if opposite direction, don't...
+            return move(direction.getOpposite(), snekBar, snekContext);
+        }
+
+        moveSnekForward(currentPixel);
+
+        // Can't eat yourself yo
+        for (int i = 1; i < snekParts.length; i++) {
+            if (snekParts[i].getX() == snekParts[0].getX() &&
+                    snekParts[i].getY() == snekParts[0].getY()) {
+                return false;
+            }
+        }
+
+        // Process food
+        ISnekFood snekFood = getSnekFood(snekBar, currentPixel.x, currentPixel.y);
+
+        if (snekFood != null) {
+            processFood(snekFood, snekContext);
+        }
+
+        return true;
+    }
+
+    @Override
+    public Score getScore() {
+        return score;
+    }
+
+    @Override
+    public ISnekPart[] getSnekParts() {
+        return snekParts;
+    }
+
+    private Point canSnekMove(Point currentPixel, Direction direction) {
         int maxY = viewContext.getResources().getInteger(R.integer.rows);
         int maxX = viewContext.getResources().getInteger(R.integer.cols);
 
@@ -84,43 +127,30 @@ public class Snek implements ISnek {
             case Up:
                 if ((currentPixel.y--) < 0) {
                     // Can't move outside grid
-                    return false;
-                }
-
-                if (currentPixel.equals(previousPixel)) {
-                    // If try to move if opposite direction, don't...
-                    return move(Direction.Down, snekBar, snekContext);
+                    return null;
                 }
                 break;
             case Right:
                 if ((currentPixel.x++) > maxX) {
-                    return false;
-                }
-
-                if (currentPixel.equals(previousPixel)) {
-                    return move(Direction.Left, snekBar, snekContext);
+                    return null;
                 }
                 break;
             case Down:
                 if ((currentPixel.y++) > maxY) {
-                    return false;
-                }
-
-                if (currentPixel.equals(previousPixel)) {
-                    return move(Direction.Up, snekBar, snekContext);
+                    return null;
                 }
                 break;
             case Left:
                 if ((currentPixel.x--) < 0) {
-                    return false;
-                }
-
-                if (currentPixel.equals(previousPixel)) {
-                    return move(Direction.Right, snekBar, snekContext);
+                    return null;
                 }
                 break;
         }
 
+        return currentPixel;
+    }
+
+    private void moveSnekForward(Point currentPixel) {
         // Remove last snekPart
         ISnekPart[] newParts = new ISnekPart[snekParts.length];
 
@@ -148,36 +178,9 @@ public class Snek implements ISnek {
         );
 
         snekParts = newParts;
-
-        for (int i = 1; i < snekParts.length; i++) {
-            if (snekParts[i].getX() == snekParts[0].getX() &&
-                    snekParts[i].getY() == snekParts[0].getY()) {
-                return false;
-            }
-        }
-
-        // Calculate score
-        ISnekFood snekFood = getSnekFood(snekBar, currentPixel.x, currentPixel.y);
-
-        if (snekFood != null) {
-            Log.d(TAG, "Found food!");
-            processFood(snekFood, direction, snekContext);
-        }
-
-        return true;
     }
 
-    @Override
-    public Score getScore() {
-        return this.score;
-    }
-
-    @Override
-    public ISnekPart[] getSnekParts() {
-        return this.snekParts;
-    }
-
-    protected ISnekFood getSnekFood(ISnekFood[] snekBar, int x, int y) {
+    private ISnekFood getSnekFood(ISnekFood[] snekBar, int x, int y) {
         for (int i = 0; i < snekBar.length; i++) {
             if (snekBar[i].getX() == x && snekBar[i].getY() == y) {
                 ISnekFood found = snekBar[i];
@@ -190,65 +193,24 @@ public class Snek implements ISnek {
         return null;
     }
 
-    protected ISnekPart createSnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
+    private ISnekPart createSnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
         try {
-            return (ISnekPart) snekPartType
+            return snekPartType
                     .getConstructor(SnekPartType.class, int.class, int.class, ISnekPart.class)
                     .newInstance(type, x, y, previousSnekPart);
-        } catch (InstantiationException e) {
-            Log.e(TAG, "Could not init ISnekPart of type " + snekPartType.getSimpleName() + " (" + e.toString() + ")");
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             Log.e(TAG, "Could not init ISnekPart of type " + snekPartType.getSimpleName() + " (" + e.toString() + ")");
         } catch (InvocationTargetException e) {
             Log.e(TAG, "Could not init ISnekPart of type " + snekPartType.getSimpleName() + " (" + e.getCause().toString() + ")");
-        } catch (NoSuchMethodException e) {
-            Log.e(TAG, "Could not init ISnekPart of type " + snekPartType.getSimpleName() + " (" + e.toString() + ")");
         }
 
         return null;
     }
 
-    protected void processFood(ISnekFood snekFood, Direction direction, SnekContext snekContext) {
-        ISnekPart[] newSnek = new ISnekPart[snekParts.length + 1];
-        System.arraycopy(snekParts, 0, newSnek, 0, snekParts.length);
+    private void processFood(ISnekFood snekFood, SnekContext snekContext) {
+        increaseSnek();
 
-        int newX = newSnek[newSnek.length - 2].getX();
-        int newY = newSnek[newSnek.length - 2].getY();
-
-        if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
-                newSnek[newSnek.length - 2].getY() < newSnek[newSnek.length - 3].getY()) {
-            newY++;
-
-        } else if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
-                newSnek[newSnek.length - 2].getY() > newSnek[newSnek.length - 3].getY()) {
-            newY--;
-
-        } else if (newSnek[newSnek.length - 2].getX() < newSnek[newSnek.length - 3].getX() &&
-                newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
-            newX++;
-
-        } else if (newSnek[newSnek.length - 2].getX() > newSnek[newSnek.length - 3].getX() &&
-                newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
-            newX--;
-        }
-
-        // Todo: Fix wrong tail alignment on feed time
-
-        newSnek[newSnek.length - 1] = createSnekPart(
-                SnekPartType.Tail,
-                newX,
-                newY,
-                newSnek[newSnek.length - 2]);
-
-        newSnek[newSnek.length - 2] = createSnekPart(
-                SnekPartType.Middle,
-                newSnek[newSnek.length - 2].getX(),
-                newSnek[newSnek.length - 2].getX(),
-                newSnek[newSnek.length - 3]);
-
-        snekParts = newSnek;
-
-        this.score.setScore(this.score.getScore() + (int) ((double) snekFood.getScore() * this.multiplier));
+        increaseScore(snekFood);
 
         if (snekContext.getSnek() instanceof Snek) { // Only change state if current state is Snek
             if (snekFood instanceof HotDog) {
@@ -263,5 +225,48 @@ public class Snek implements ISnek {
                 snekContext.setSnek(new SpeedSnek(this.viewContext, this.snekParts, this.score)); // Kek, cheezburger makes fast snek
             }
         }
+    }
+
+    private void increaseSnek() {
+        ISnekPart[] newSnek = new ISnekPart[snekParts.length + 1];
+        System.arraycopy(snekParts, 0, newSnek, 0, snekParts.length);
+
+        int newX = newSnek[newSnek.length - 2].getX();
+        int newY = newSnek[newSnek.length - 2].getY();
+
+        if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
+                newSnek[newSnek.length - 2].getY() < newSnek[newSnek.length - 3].getY()) {
+            newY--;
+
+        } else if (newSnek[newSnek.length - 2].getX() == newSnek[newSnek.length - 3].getX() &&
+                newSnek[newSnek.length - 2].getY() > newSnek[newSnek.length - 3].getY()) {
+            newY++;
+
+        } else if (newSnek[newSnek.length - 2].getX() < newSnek[newSnek.length - 3].getX() &&
+                newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
+            newX--;
+
+        } else if (newSnek[newSnek.length - 2].getX() > newSnek[newSnek.length - 3].getX() &&
+                newSnek[newSnek.length - 2].getY() == newSnek[newSnek.length - 3].getY()) {
+            newX++;
+        }
+
+        newSnek[newSnek.length - 1] = createSnekPart(
+                SnekPartType.Tail,
+                newX,
+                newY,
+                newSnek[newSnek.length - 2]);
+
+        newSnek[newSnek.length - 2] = createSnekPart(
+                SnekPartType.Middle,
+                newSnek[newSnek.length - 2].getX(),
+                newSnek[newSnek.length - 2].getY(),
+                newSnek[newSnek.length - 3]);
+
+        snekParts = newSnek;
+    }
+
+    private void increaseScore(ISnekFood snekFood) {
+        score.setScore(this.score.getScore() + (int) ((double) snekFood.getScore() * multiplier));
     }
 }

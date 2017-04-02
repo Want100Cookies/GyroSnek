@@ -1,10 +1,12 @@
 package nl.drewez.gyrosnek.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -13,6 +15,7 @@ import android.view.View;
 
 import nl.drewez.gyrosnek.IDrawable;
 import nl.drewez.gyrosnek.R;
+import nl.drewez.gyrosnek.Snek.Score;
 import nl.drewez.gyrosnek.SnekController;
 
 public class GameView extends View {
@@ -89,7 +92,33 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawColor(Color.WHITE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            canvas.drawColor(getResources().getColor(R.color.colorPrimary, null));
+        } else {
+            canvas.drawColor(getResources().getColor(R.color.colorPrimary));
+        }
+        int alpha = 255;
+
+        if (paused) {
+            // Draw paused text
+            int xPos = (canvas.getWidth() / 2);
+            int yPos = (canvas.getHeight() / 2);
+
+            String paused = getResources().getString(R.string.paused);
+            String continueSnek = getResources().getString(R.string.continue_snek);
+            String stopSnek = getResources().getString(R.string.stop_snek);
+
+            paint.setTextSize(200);
+            drawTextCentered(paused, xPos, yPos, paint, canvas);
+
+            paint.setTextSize(60);
+            drawTextCentered(continueSnek, xPos, yPos + 200, paint, canvas);
+
+            paint.setTextSize(50);
+            drawTextCentered(stopSnek, xPos, yPos + 200 + 60, paint, canvas);
+
+            alpha = 60;
+        }
 
         for (IDrawable drawable : snekController.getDrawables()) {
             if (drawable == null) {
@@ -99,6 +128,7 @@ public class GameView extends View {
             int x = getXForBlock(drawable.getX());
             int y = getYForBlock(drawable.getY());
             Drawable image = drawable.getDrawable(getContext());
+            image.setAlpha(alpha);
             image.setBounds(
                     x,
                     y,
@@ -115,21 +145,44 @@ public class GameView extends View {
         boolean result = mDetector.onTouchEvent(event);
         if (!result) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d(TAG, "onTouchEvent action = action up");
+                Log.d(TAG, "onTouchEvent action = action up (X = " + event.getX() + ")");
+
                 if (paused) {
-                    snekController.start();
+                    if (getXForBlock(cols / 2) > event.getX()) {
+                        snekController.start();
+                        paused = false;
+
+                    } else {
+                        snekController.stop();
+                        startScoreActivity();
+                    }
                 } else {
                     snekController.pause();
+                    paused = true;
                     invalidate();
                 }
 
-                paused = !paused;
-                result = true;
+                return true;
             }
         }
 
         Log.d(TAG, "onTouchEvent result:" + result);
 
         return result;
+    }
+
+    private void drawTextCentered(String text, int x, int y, Paint paint, Canvas canvas) {
+        int xPos = x - (int) (paint.measureText(text) / 2);
+        int yPos = (int) (y - ((paint.descent() + paint.ascent()) / 2));
+
+        canvas.drawText(text, xPos, yPos, paint);
+    }
+
+    public void startScoreActivity() {
+        Score score = snekController.getScore();
+
+        Intent intent = new Intent(getContext(), ScoreActivity.class);
+        intent.putExtra("score", score.getScore());
+        getContext().startActivity(intent);
     }
 }

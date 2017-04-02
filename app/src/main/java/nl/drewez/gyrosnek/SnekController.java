@@ -6,12 +6,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.drewez.gyrosnek.Snek.ISnek;
 import nl.drewez.gyrosnek.Snek.ISnekFactory;
+import nl.drewez.gyrosnek.Snek.Score;
 import nl.drewez.gyrosnek.Snek.SnekContext;
 import nl.drewez.gyrosnek.Snek.SnekFactory;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
@@ -62,9 +64,10 @@ public class SnekController implements SensorEventListener {
         tick = new Runnable() {
             @Override
             public void run() {
-                tick();
-
-                tickHandler.postDelayed(tick, tickTime);
+                if (tick()) {
+                    tickHandler.postDelayed(tick, tickTime);
+                }
+                // if !tick, stop ticking
             }
         };
     }
@@ -92,10 +95,7 @@ public class SnekController implements SensorEventListener {
 
     public void stop() {
         pause();
-
-
-        // Todo: get score
-        // Todo: sent score to score view
+        view.startScoreActivity();
     }
 
     public ISnek getSnek() {
@@ -116,7 +116,11 @@ public class SnekController implements SensorEventListener {
         return drawables;
     }
 
-    private void tick() {
+    public Score getScore() {
+        return snekContext.getSnek().getScore();
+    }
+
+    private boolean tick() {
         ISnek snek = this.snekContext.getSnek();
 
         boolean canMove = snek.move(
@@ -128,6 +132,7 @@ public class SnekController implements SensorEventListener {
 
         if (!canMove) {
             stop();
+            return false;
         }
 
         if ((++this.currentTick % foodTime) == 0) {
@@ -140,6 +145,7 @@ public class SnekController implements SensorEventListener {
 
         // Redraw screen
         view.invalidate();
+        return true;
     }
 
     private Direction getDirection() {

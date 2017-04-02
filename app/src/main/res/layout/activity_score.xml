@@ -3,19 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context="nl.drewez.gyrosnek.Views.StartActivity">
+    tools:context="nl.drewez.gyrosnek.Views.ScoreActivity"
+    >
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
+
     <TextView
-        android:id="@+id/fullscreen_content"
+        android:id="@+id/scoreTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/welcome"
         android:textColor="@color/colorPrimary"
-        android:textSize="60sp"
-        android:textStyle="bold"/>
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:onClick="onClick"/>
 </FrameLayout>

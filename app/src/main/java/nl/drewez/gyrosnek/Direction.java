@@ -1,5 +1,7 @@
 package nl.drewez.gyrosnek;
 
+import android.support.annotation.NonNull;
+
 public enum Direction {
     Up,
     Right,
@@ -20,5 +22,20 @@ public enum Direction {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public Direction getOpposite() {
+        switch (this) {
+            case Up:
+                return Down;
+            case Right:
+                return Left;
+            case Down:
+                return Up;
+            case Left:
+                return Right;
+        }
+
+        return null;
     }
 }
