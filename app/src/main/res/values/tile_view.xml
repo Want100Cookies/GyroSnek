@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="cols">16</integer>
+    <integer name="rows">9</integer>
+    <integer name="init_start_x">5</integer>
+    <integer name="init_end_x">7</integer>
+    <integer name="init_y">5</integer>
+</resources>

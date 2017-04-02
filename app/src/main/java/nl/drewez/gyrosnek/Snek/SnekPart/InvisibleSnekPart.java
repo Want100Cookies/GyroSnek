@@ -3,17 +3,15 @@ package nl.drewez.gyrosnek.Snek.SnekPart;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-/**
- * Created by ljvan on 27-3-2017.
- */
-
 public class InvisibleSnekPart implements ISnekPart {
     private int x;
     private int y;
     private SnekPartType type;
 
-    public InvisibleSnekPart (SnekPartType type, int x, int y) {
-
+    public InvisibleSnekPart(SnekPartType type, int x, int y) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
     }
 
     @Override
