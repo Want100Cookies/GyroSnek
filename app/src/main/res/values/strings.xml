@@ -7,8 +7,8 @@
 
     <string name="welcome">SNEK!</string>
     <string name="paused">PAUSED</string>
-    <string name="continue_snek">Press left side of screen to continue</string>
-    <string name="stop_snek">Press the right side to top</string>
+    <string name="continue_snek">Press left side of screen to resume the game.</string>
+    <string name="stop_snek">Press the right side of the screen to stop the game.</string>
 
     <string name="title_activity_score">Finished snek</string>
 
