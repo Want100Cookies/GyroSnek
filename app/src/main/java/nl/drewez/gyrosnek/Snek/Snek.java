@@ -19,8 +19,8 @@ import nl.drewez.gyrosnek.SnekFood.Pizza;
 public class Snek implements ISnek {
     private static final String TAG = Snek.class.getSimpleName();
 
-    protected static final double multiplier = 1;
-    protected static final Class<SnekPart> snekPartType = SnekPart.class;
+    protected static double multiplier = 1;
+    protected static Class snekPartType = SnekPart.class;
     protected ISnekPart[] snekParts;
     protected Score score = new Score();
     protected Context viewContext;
@@ -195,7 +195,7 @@ public class Snek implements ISnek {
 
     private ISnekPart createSnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
         try {
-            return snekPartType
+            return (ISnekPart) snekPartType
                     .getConstructor(SnekPartType.class, int.class, int.class, ISnekPart.class)
                     .newInstance(type, x, y, previousSnekPart);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {

@@ -4,22 +4,18 @@ import android.content.Context;
 
 import nl.drewez.gyrosnek.Direction;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
+import nl.drewez.gyrosnek.Snek.SnekPart.SpeedSnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 
 public class SpeedSnek extends Snek implements ISnek {
-    protected static final double multiplier = 1.2;
-    protected static final Class snekPartType = SpeedSnek.class;
-
     private static int moves = 0;
-    private int maxMoves = 20;
-
-
-    public SpeedSnek(Context context) {
-        super(context);
-    }
+    private int maxMoves = 50;
 
     public SpeedSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
+
+        multiplier = 1.2;
+        snekPartType = SpeedSnekPart.class;
     }
 
     @Override
