@@ -10,12 +10,14 @@ import android.graphics.drawable.Drawable;
 import nl.drewez.gyrosnek.R;
 
 public class SnekPart implements ISnekPart {
-
     private int x;
     private int y;
     private int previousX = 0;
     private int previousY = 0;
     private SnekPartType type;
+    protected static final int drawableHead = R.drawable.snek_head;
+    protected static final int drawableBody = R.drawable.snek_body;
+    protected static final int drawableTail = R.drawable.snek_tail;
 
     public SnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
         this.type = type;
@@ -34,7 +36,7 @@ public class SnekPart implements ISnekPart {
         int rotateAngle = 0;
         switch (type) {
             case Head:
-                drawableId = R.drawable.snek_head;
+                drawableId = drawableHead;
 
                 if (x > previousX && y == previousY) {
                     rotateAngle = 180;
@@ -45,10 +47,10 @@ public class SnekPart implements ISnekPart {
                 }
                 break;
             case Middle:
-                drawableId = R.drawable.snek_body;
+                drawableId = drawableBody;
                 break;
             case Tail:
-                drawableId = R.drawable.snek_tail;
+                drawableId = drawableTail;
 
                 if (x < previousX && y == previousY) {
                     rotateAngle = 180;

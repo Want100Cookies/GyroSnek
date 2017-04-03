@@ -25,12 +25,12 @@ public class SpeedSnek extends Snek implements ISnek {
     @Override
     public boolean move(Direction direction, ISnekFood[] snekBar, SnekContext snekContext) {
         boolean move1 = super.move(direction, snekBar, snekContext);
-        boolean move2 = super.move(direction, snekBar, snekContext);
+//        boolean move2 = super.move(direction, snekBar, snekContext);
 
         if (moves++ > maxMoves) { // Only have speedsnek for <maxMoves> then go back to normal snek
             snekContext.setSnek(new Snek(super.viewContext, super.snekParts, super.score));
         }
 
-        return move1 || move2;
+        return move1; // || move2;
     }
 }
