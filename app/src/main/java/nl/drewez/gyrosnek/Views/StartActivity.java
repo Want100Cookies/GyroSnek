@@ -15,10 +15,11 @@ public class StartActivity extends AppCompatActivity {
     private View mContentView;
 
     /**
-    * Sets certain aspects of the instance
-    * @param savedInstanceState retrieves the state of the instance
-    * @return void
-    */
+     * Sets certain aspects of the instance
+     *
+     * @param savedInstanceState retrieves the state of the instance
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
