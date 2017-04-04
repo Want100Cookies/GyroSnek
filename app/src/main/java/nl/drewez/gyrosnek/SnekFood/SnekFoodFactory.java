@@ -10,21 +10,34 @@ import nl.drewez.gyrosnek.R;
 import nl.drewez.gyrosnek.Snek.ISnek;
 import nl.drewez.gyrosnek.Snek.SnekPart.ISnekPart;
 
+
 public class SnekFoodFactory implements ISnekFoodFactory {
     private static final Random random = new Random();
     private static final int MinNoOfFoods = 3;
     private static final int MaxNoOfFoods = 8;
 
+    /**
+     * Creates a random food object
+     *
+     * @param currentFood returns food in the array
+     * @param snek        checks the posiition of the snek
+     * @param context     the context of the view to retreive the int of the xml
+     * @return return new food object
+     */
     @Override
     public ISnekFood[] createSnekBar(ISnekFood[] currentFood, ISnek snek, Context context) {
 
+        //generate random ammount of food between the limits
         int noOfFoods = random.nextInt(MaxNoOfFoods - MinNoOfFoods) + MinNoOfFoods;
+
 
         ISnekFood[] snekBar = new ISnekFood[noOfFoods];
 
+        //checks if the spot is available to spawn food
         ArrayList<Point> unavailablePixels = getUnavailablePixels(currentFood, snek);
         ArrayList<Point> availablePixels = getAvailablePixels(unavailablePixels, context);
 
+        //spawns random types of food and adds these to the array
         for (int i = 0; i < noOfFoods; i++) {
             int snekType = random.nextInt(3);
             Point pixel = availablePixels.get(random.nextInt(availablePixels.size()));
@@ -45,6 +58,13 @@ public class SnekFoodFactory implements ISnekFoodFactory {
         return snekBar;
     }
 
+    /**
+     * method to return the unavailable grid spots
+     *
+     * @param currentFood checks spot for food
+     * @param snek        checks spot for sneks
+     * @return return the unavailable grid spots
+     */
     private ArrayList<Point> getUnavailablePixels(ISnekFood[] currentFood, ISnek snek) {
         ArrayList<Point> unavailable = new ArrayList<>();
 
@@ -61,6 +81,13 @@ public class SnekFoodFactory implements ISnekFoodFactory {
         return unavailable;
     }
 
+    /**
+     * method to return the available grid spots
+     *
+     * @param unavailablePoints The not free points
+     * @param context           The context used for xml value retrieval
+     * @return return the available grid spots
+     */
     private ArrayList<Point> getAvailablePixels(ArrayList<Point> unavailablePoints, Context context) {
         int rows = context.getResources().getInteger(R.integer.rows);
         int cols = context.getResources().getInteger(R.integer.cols);

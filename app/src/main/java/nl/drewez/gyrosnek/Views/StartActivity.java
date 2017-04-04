@@ -11,8 +11,15 @@ import nl.drewez.gyrosnek.R;
 
 public class StartActivity extends AppCompatActivity {
 
+    //field for the view
     private View mContentView;
 
+    /**
+     * Sets certain aspects of the instance
+     *
+     * @param savedInstanceState retrieves the state of the instance
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +35,16 @@ public class StartActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-
+        //Hides the actionbar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
 
+        //Stores the StartActivity this in _this
         final StartActivity _this = this;
 
+        //delays the runnable, which allows to show the bootscreen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
