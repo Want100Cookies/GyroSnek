@@ -8,6 +8,7 @@ import nl.drewez.gyrosnek.IDrawable;
 public interface ISnekPart extends IDrawable {
     /**
      * Get the drawable to draw on the canvas
+     *
      * @param context the context needed for Drawable retrieval
      * @return Drawable
      */

@@ -18,10 +18,11 @@ public class SnekFoodFactory implements ISnekFoodFactory {
 
     /**
      * Creates a random food object
-     * @param  currentFood ,returns food in the array
-     * @param  snek ,checks the posiition of the snek
-     * @param  context ,the context of the view to retreive the int of the xml
-     * @return return new food object  
+     *
+     * @param currentFood returns food in the array
+     * @param snek        checks the posiition of the snek
+     * @param context     the context of the view to retreive the int of the xml
+     * @return return new food object
      */
     @Override
     public ISnekFood[] createSnekBar(ISnekFood[] currentFood, ISnek snek, Context context) {
@@ -59,9 +60,10 @@ public class SnekFoodFactory implements ISnekFoodFactory {
 
     /**
      * method to return the unavailable grid spots
-     * @param  currentFood ,checks spot for food
-     * @param  snek ,checks spot for sneks
-     * @return return the unavailable grid spots 
+     *
+     * @param currentFood checks spot for food
+     * @param snek        checks spot for sneks
+     * @return return the unavailable grid spots
      */
     private ArrayList<Point> getUnavailablePixels(ISnekFood[] currentFood, ISnek snek) {
         ArrayList<Point> unavailable = new ArrayList<>();
@@ -81,9 +83,10 @@ public class SnekFoodFactory implements ISnekFoodFactory {
 
     /**
      * method to return the available grid spots
-     * @param  currentFood ,checks spot for food
-     * @param  snek ,checks spot for sneks
-     * @return return the unavailable grid spots 
+     *
+     * @param unavailablePoints The not free points
+     * @param context           The context used for xml value retrieval
+     * @return return the available grid spots
      */
     private ArrayList<Point> getAvailablePixels(ArrayList<Point> unavailablePoints, Context context) {
         int rows = context.getResources().getInteger(R.integer.rows);

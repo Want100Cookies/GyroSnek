@@ -13,9 +13,10 @@ public class InvisibleSnek extends Snek implements ISnek {
 
     /**
      * Setup default snek parameters and change multiplier and snekPartType defaults
-     * @param context the GameView context used in the Snek constructor
+     *
+     * @param context          the GameView context used in the Snek constructor
      * @param currentSnekParts the snekParts used for the previous snek. These are used to init this snek
-     * @param currentScore the current score of the game
+     * @param currentScore     the current score of the game
      */
     public InvisibleSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
@@ -26,8 +27,9 @@ public class InvisibleSnek extends Snek implements ISnek {
 
     /**
      * Move InvisibleSnek for maxMoves
-     * @param direction The direction the snek has to move
-     * @param snekBar The food the snek can eat if he encounters it
+     *
+     * @param direction   The direction the snek has to move
+     * @param snekBar     The food the snek can eat if he encounters it
      * @param snekContext The context of the current snek (used for state-switching)
      * @return boolean Is false if this snek can not move.
      */

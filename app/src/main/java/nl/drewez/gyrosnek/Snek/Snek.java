@@ -27,6 +27,7 @@ public class Snek implements ISnek {
 
     /**
      * Initialize this snek
+     *
      * @param context The GameView context used for xml var en drawable retrieval
      */
     public Snek(Context context) {
@@ -61,9 +62,10 @@ public class Snek implements ISnek {
 
     /**
      * Initiate the snek out of a previous snek
-     * @param context The GameView context used for xml var en drawable retrieval
+     *
+     * @param context          The GameView context used for xml var en drawable retrieval
      * @param currentSnekParts The old snekParts to be used for the new snekParts
-     * @param currentScore The current score
+     * @param currentScore     The current score
      */
     public Snek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         // Copy the old vars to this snek
@@ -100,8 +102,9 @@ public class Snek implements ISnek {
 
     /**
      * Move the snek in the given direction (if possible) and do all actions needed
-     * @param direction The direction the snek has to move
-     * @param snekBar The food the snek can eat if he encounters it
+     *
+     * @param direction   The direction the snek has to move
+     * @param snekBar     The food the snek can eat if he encounters it
      * @param snekContext The context of the current snek (used for state-switching)
      * @return boolean False if the snek can not move due to constraints
      */
@@ -163,8 +166,9 @@ public class Snek implements ISnek {
 
     /**
      * Check if the snek can move in the given direction and set current pixel in this direction
+     *
      * @param currentPixel This is the pixel of the current head.
-     * @param direction The direction the currentPixel has to be moved in
+     * @param direction    The direction the currentPixel has to be moved in
      * @return the pixel moved in the given direction
      */
     private Point canSnekMove(Point currentPixel, Direction direction) {
@@ -205,6 +209,7 @@ public class Snek implements ISnek {
 
     /**
      * Move the snek to the currentPixel
+     *
      * @param currentPixel the position of the head after the method has run
      */
     private void moveSnekForward(Point currentPixel) {
@@ -243,9 +248,10 @@ public class Snek implements ISnek {
 
     /**
      * Calculate if there is food at x and y
+     *
      * @param snekBar All the food on the grid
-     * @param x The x to be searched
-     * @param y The y to be searched
+     * @param x       The x to be searched
+     * @param y       The y to be searched
      * @return ISnekFood The food found and x and y
      */
     private ISnekFood getSnekFood(ISnekFood[] snekBar, int x, int y) {
@@ -269,9 +275,10 @@ public class Snek implements ISnek {
      * Create a new SnekPart based on the snekPartType field of Snek.
      * Because of this method the other snek types can inherit of the Snek class and just
      * set snekPartType to the correct one
-     * @param type The type (head, middle or tail)
-     * @param x The x position of the new snekPart
-     * @param y The y position of the new snekPart
+     *
+     * @param type             The type (head, middle or tail)
+     * @param x                The x position of the new snekPart
+     * @param y                The y position of the new snekPart
      * @param previousSnekPart The previous snekpart used for rotation reference (see SnekPart)
      * @return ISnekPart The new SnekPart
      */
@@ -294,7 +301,8 @@ public class Snek implements ISnek {
 
     /**
      * Processes the food, increases snek and score and switches states as needed
-     * @param snekFood The food to be processed
+     *
+     * @param snekFood    The food to be processed
      * @param snekContext The context of the Snek (used for state-switching)
      */
     private void processFood(ISnekFood snekFood, SnekContext snekContext) {
@@ -376,6 +384,7 @@ public class Snek implements ISnek {
 
     /**
      * Increase the current score based on the score of the food and the multiplier of this snek
+     *
      * @param snekFood The snekFood used for score calculation
      */
     private void increaseScore(ISnekFood snekFood) {

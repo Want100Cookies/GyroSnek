@@ -13,10 +13,11 @@ public class SpeedSnek extends Snek implements ISnek {
     private int maxMoves = 50;
 
     /**
-     * Returns an Image object that can then be painted on the screen. 
-     * @param  context, context of the current Snek  
-     * @param  currentSnekParts, current SnekParts retreived from Snek 
-     * @param  currentScore, current score used to calculate the multiplier
+     * Returns an Image object that can then be painted on the screen.
+     *
+     * @param context,          context of the current Snek
+     * @param currentSnekParts, current SnekParts retreived from Snek
+     * @param currentScore,     current score used to calculate the multiplier
      * @return move1, which makes the snek move
      */
     public SpeedSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
@@ -27,10 +28,11 @@ public class SpeedSnek extends Snek implements ISnek {
     }
 
     /**
-     * Returns an Image object that can then be painted on the screen. 
-     * @param  direction, the direction the Snek can move to 
-     * @param  snekBar, retreives info of the current foods
-     * @param  snekContext, retreives snekContext to alter the current Snek type
+     * Returns an Image object that can then be painted on the screen.
+     *
+     * @param direction,   the direction the Snek can move to
+     * @param snekBar,     retreives info of the current foods
+     * @param snekContext, retreives snekContext to alter the current Snek type
      * @return move1, which makes the snek move
      */
     @Override

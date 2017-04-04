@@ -21,9 +21,10 @@ public class SnekPart implements ISnekPart {
 
     /**
      * Initialize SnekPart
-     * @param type the type of this part (Head, middle or tail)
-     * @param x the x-position
-     * @param y the y-position
+     *
+     * @param type             the type of this part (Head, middle or tail)
+     * @param x                the x-position
+     * @param y                the y-position
      * @param previousSnekPart the previous snekPart is used to rotate this snekPart accordingly
      */
     public SnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
@@ -46,6 +47,7 @@ public class SnekPart implements ISnekPart {
 
     /**
      * Return the drawable associated with this snekPart
+     *
      * @param context the context needed for Drawable retrieval
      * @return Drawable
      */

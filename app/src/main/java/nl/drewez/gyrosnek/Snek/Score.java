@@ -12,6 +12,7 @@ public class Score {
 
     /**
      * Sets the score to this new integer
+     *
      * @param score the new score
      */
     public void setScore(int score) {
