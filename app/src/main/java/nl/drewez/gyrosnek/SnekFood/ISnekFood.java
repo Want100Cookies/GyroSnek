@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import nl.drewez.gyrosnek.IDrawable;
 
+//In this class the food object is defined, all foods inherit from ISnekFood
 public interface ISnekFood extends IDrawable {
     Drawable getDrawable(Context context);
 

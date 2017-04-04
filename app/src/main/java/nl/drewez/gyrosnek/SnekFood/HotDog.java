@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 import nl.drewez.gyrosnek.R;
 
+//In this class the Hotdog food object is defined
 public class HotDog implements ISnekFood {
     private static final int score = 30;
     private int y;

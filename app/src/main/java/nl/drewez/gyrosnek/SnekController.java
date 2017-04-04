@@ -28,13 +28,16 @@ import nl.drewez.gyrosnek.Views.GameView;
 public class SnekController implements SensorEventListener {
     private static final String TAG = SnekController.class.getSimpleName();
 
+    //the snekcontext en gameview field
     private SnekContext snekContext;
     private GameView view;
 
+    //the snek food fields
     private ISnekFoodFactory foodFactory;
     private ISnekFactory snekFactory;
     private ISnekFood[] snekBar;
 
+    //fields for the tick/timer or gametime
     private Handler tickHandler;
     private Runnable tick;
 
@@ -46,6 +49,7 @@ public class SnekController implements SensorEventListener {
     private static final int foodTime = 20; // Generate food every x ticks
     private int currentTick = 0;
 
+    //fields for the gyroscope in your phone
     private SensorManager mSensorManager;
     private final float[] mAccelerometerReading = new float[3];
     private final float[] mMagnetometerReading = new float[3];
@@ -53,6 +57,10 @@ public class SnekController implements SensorEventListener {
     private final float[] mRotationMatrix = new float[9];
     private final float[] mOrientationAngles = new float[3];
 
+    /**
+     * The gamecontroller class, which is used to update the view
+     * @param  view, used to update the view when changes occur 
+     */
     public SnekController(GameView view) {
         this.view = view;
 
@@ -80,6 +88,10 @@ public class SnekController implements SensorEventListener {
         };
     }
 
+    /**
+     * Start instance of the game, which makes the tick run and enables the sensors
+     * @return void
+     */
     public void start() {
         mSensorManager.registerListener(
                 this,
@@ -96,11 +108,16 @@ public class SnekController implements SensorEventListener {
         tick.run();
     }
 
+    //pauses the game and disables the gyrosensors
     public void pause() {
         mSensorManager.unregisterListener(this);
         tickHandler.removeCallbacks(tick);
     }
 
+    /**
+     * Start instance of the game, which makes the tick run and enables the sensors
+     * @return void
+     */
     public void stop() {
         pause();
 
@@ -111,14 +128,26 @@ public class SnekController implements SensorEventListener {
         view.startScoreActivity(score);
     }
 
+    /**
+    *retreive snek information
+    * @return snekContext
+    */
     public ISnek getSnek() {
         return snekContext.getSnek();
     }
 
+    /** 
+    * retreive snek food information
+    * @return snekBar
+    */
     public ISnekFood[] getSnekBar() {
         return snekBar;
     }
 
+    /**
+    * retreives the objects that need to be drawn on the canvas
+    * @return drawables, the objects need to be drawn on canvas/screen
+    */
     public IDrawable[] getDrawables() {
         ISnekPart[] snekParts = snekContext.getSnek().getSnekParts();
         IDrawable[] drawables = new IDrawable[snekParts.length + snekBar.length];
@@ -129,10 +158,18 @@ public class SnekController implements SensorEventListener {
         return drawables;
     }
 
+    /**
+    * retreives the player score
+    * @return getScore, the score of the player
+    */
     public Score getScore() {
         return snekContext.getSnek().getScore();
     }
 
+    /** 
+    * a repeated action used for events in the game
+    * @return true or false, depending if the game continues
+    */
     private boolean tick() {
         ISnek snek = this.snekContext.getSnek();
 
@@ -168,6 +205,10 @@ public class SnekController implements SensorEventListener {
         return true;
     }
 
+    /**
+    * returns the direction of the snek
+    * @return direction of the snek
+    */
     private Direction getDirection() {
         updateOrientationAngles();
 
@@ -192,6 +233,10 @@ public class SnekController implements SensorEventListener {
         }
     }
 
+    /**
+     * onSensorChanged checks if the sensor picked up a new handling/action
+     * @param  event, retreives the events caused by handling the sensor
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -210,11 +255,18 @@ public class SnekController implements SensorEventListener {
         }
     }
 
+    /**
+    * doesn't serve a purpose, but is required for the onSensorChanged method
+    */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // no-op
     }
 
+    /**
+    * updates the angles in which the snek can move
+    * @return void
+    */
     private void updateOrientationAngles() {
         SensorManager.getRotationMatrix(
                 mRotationMatrix,
@@ -225,6 +277,10 @@ public class SnekController implements SensorEventListener {
         SensorManager.getOrientation(mRotationMatrix, mOrientationAngles);
     }
 
+    /**
+    * removes the nulls in the array to fill with new foods
+    * @return new array with foods
+    */
     private ISnekFood[] removeNulls(ISnekFood[] objects) {
         List<ISnekFood> newList = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 import nl.drewez.gyrosnek.R;
 
+//In this class the Pizza food object is defined
 public class Pizza implements ISnekFood {
     private static final int score = 50;
     private int y;

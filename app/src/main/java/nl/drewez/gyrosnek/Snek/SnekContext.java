@@ -1,6 +1,5 @@
 package nl.drewez.gyrosnek.Snek;
 
-
 public class SnekContext {
     private ISnek currentSnek;
 
@@ -13,7 +12,6 @@ public class SnekContext {
     }
 
     public void setSnek(ISnek snek) {
-        // Todo: test state switching (first implement other sneks)
         this.currentSnek = snek;
     }
 }
