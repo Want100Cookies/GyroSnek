@@ -14,7 +14,7 @@ public class SpeedSnek extends Snek implements ISnek {
     public SpeedSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
 
-        multiplier = 1.2;
+        multiplier = 10;
         snekPartType = SpeedSnekPart.class;
     }
 

@@ -1,10 +1,6 @@
 package nl.drewez.gyrosnek.Snek.SnekPart;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-
 import nl.drewez.gyrosnek.R;
-import nl.drewez.gyrosnek.Snek.InvisibleSnek;
 
 public class InvisibleSnekPart extends SnekPart implements ISnekPart {
 

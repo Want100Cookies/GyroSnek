@@ -19,8 +19,8 @@ import nl.drewez.gyrosnek.SnekFood.Pizza;
 public class Snek implements ISnek {
     private static final String TAG = Snek.class.getSimpleName();
 
-    protected static double multiplier = 1;
-    protected static Class snekPartType = SnekPart.class;
+    protected static int multiplier;
+    protected static Class snekPartType;
     protected ISnekPart[] snekParts;
     protected Score score = new Score();
     protected Context viewContext;
@@ -29,6 +29,9 @@ public class Snek implements ISnek {
         this.score.setScore(0);
 
         this.viewContext = context;
+
+        multiplier = 1;
+        snekPartType = SnekPart.class;
 
         int startX = context.getResources().getInteger(R.integer.init_start_x);
         int endX = context.getResources().getInteger(R.integer.init_end_x);
@@ -50,6 +53,9 @@ public class Snek implements ISnek {
         score = currentScore;
         viewContext = context;
         snekParts = new ISnekPart[currentSnekParts.length];
+
+        multiplier = 1;
+        snekPartType = SnekPart.class;
 
         snekParts[0] = createSnekPart(
                 SnekPartType.Head,
@@ -79,6 +85,8 @@ public class Snek implements ISnek {
 
         // Check if we can move (returns null if not)
         currentPixel = canSnekMove(currentPixel, direction);
+
+        Log.d(TAG, "Result of canSnekMove: " + currentPixel);
 
         if (currentPixel == null) {
             return false;
@@ -125,23 +133,23 @@ public class Snek implements ISnek {
 
         switch (direction) {
             case Up:
-                if ((currentPixel.y--) < 0) {
+                if ((--currentPixel.y) < 0) {
                     // Can't move outside grid
                     return null;
                 }
                 break;
             case Right:
-                if ((currentPixel.x++) > maxX) {
+                if ((++currentPixel.x) >= maxX) {
                     return null;
                 }
                 break;
             case Down:
-                if ((currentPixel.y++) > maxY) {
+                if ((++currentPixel.y) >= maxY) {
                     return null;
                 }
                 break;
             case Left:
-                if ((currentPixel.x--) < 0) {
+                if ((--currentPixel.x) < 0) {
                     return null;
                 }
                 break;

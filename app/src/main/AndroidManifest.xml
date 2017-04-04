@@ -13,6 +13,7 @@
             android:name=".Views.StartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_start"
+            android:noHistory="true"
             android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -25,14 +26,16 @@
             android:name=".Views.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_game"
+            android:noHistory="true"
             android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".Views.ScoreActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_score"
+            android:noHistory="true"
             android:screenOrientation="landscape"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
     </application>
 
 </manifest>

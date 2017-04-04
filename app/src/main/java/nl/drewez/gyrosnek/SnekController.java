@@ -37,7 +37,12 @@ public class SnekController implements SensorEventListener {
 
     private Handler tickHandler;
     private Runnable tick;
-    private static int tickTime = 1000; // Tick time in ms
+
+    private static final int speedSnekTickTime = 250;
+    private static final int normalSnekTickTime = 500;
+
+    private static int tickTime = normalSnekTickTime; // Tick time in ms
+
     private static final int foodTime = 20; // Generate food every x ticks
     private int currentTick = 0;
 
@@ -98,7 +103,12 @@ public class SnekController implements SensorEventListener {
 
     public void stop() {
         pause();
-        view.startScoreActivity();
+
+        Score score = getScore();
+
+        snekContext.setSnek(snekFactory.createSnek(view.getContext()));
+
+        view.startScoreActivity(score);
     }
 
     public ISnek getSnek() {
@@ -131,18 +141,18 @@ public class SnekController implements SensorEventListener {
                 this.snekBar,
                 this.snekContext);
 
-        this.snekBar = removeNulls(this.snekBar);
-
-        if (snekContext.getSnek() instanceof SpeedSnek) {
-            tickTime = 500;
-        }
-        else  {
-            tickTime = 1000;
-        }
-
         if (!canMove) {
             stop();
             return false;
+        }
+
+        this.snekBar = removeNulls(this.snekBar);
+
+        if (snekContext.getSnek() instanceof SpeedSnek) {
+            tickTime = speedSnekTickTime;
+        }
+        else  {
+            tickTime = normalSnekTickTime;
         }
 
         if ((++this.currentTick % foodTime) == 0) {

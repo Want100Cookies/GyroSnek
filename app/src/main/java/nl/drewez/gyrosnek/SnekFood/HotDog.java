@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 import nl.drewez.gyrosnek.R;
 
 public class HotDog implements ISnekFood {
-    private static final int score = 1;
+    private static final int score = 30;
     private int y;
     private int x;
 

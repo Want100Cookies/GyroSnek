@@ -14,7 +14,7 @@ public class InvisibleSnek extends Snek implements ISnek {
     public InvisibleSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
 
-        multiplier = 1.2;
+        multiplier = 2;
         snekPartType = InvisibleSnekPart.class;
     }
 

@@ -15,11 +15,15 @@ public class SnekPart implements ISnekPart {
     private int previousX = 0;
     private int previousY = 0;
     private SnekPartType type;
-    protected static int drawableHead = R.drawable.snek_head;
-    protected static int drawableBody = R.drawable.snek_body;
-    protected static int drawableTail = R.drawable.snek_tail;
+    protected static int drawableHead;
+    protected static int drawableBody;
+    protected static int drawableTail;
 
     public SnekPart(SnekPartType type, int x, int y, ISnekPart previousSnekPart) {
+        drawableHead = R.drawable.snek_head;
+        drawableBody = R.drawable.snek_body;
+        drawableTail = R.drawable.snek_tail;
+
         this.type = type;
         this.x = x;
         this.y = y;

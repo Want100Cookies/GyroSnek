@@ -97,7 +97,12 @@ public class GameView extends View {
         } else {
             canvas.drawColor(getResources().getColor(R.color.colorPrimary));
         }
+
         int alpha = 255;
+
+        paint.setTextSize(100);
+        paint.setColor(Color.argb(100, 240, 240, 240));
+        canvas.drawText("Score: " + snekController.getScore().getScore(), 10, 110, paint);
 
         if (paused) {
             // Draw paused text
@@ -107,6 +112,8 @@ public class GameView extends View {
             String paused = getResources().getString(R.string.paused);
             String continueSnek = getResources().getString(R.string.continue_snek);
             String stopSnek = getResources().getString(R.string.stop_snek);
+
+            paint.setColor(Color.WHITE);
 
             paint.setTextSize(200);
             drawTextCentered(paused, xPos, yPos, paint, canvas);
@@ -154,7 +161,6 @@ public class GameView extends View {
 
                     } else {
                         snekController.stop();
-                        startScoreActivity();
                     }
                 } else {
                     snekController.pause();
@@ -178,9 +184,7 @@ public class GameView extends View {
         canvas.drawText(text, xPos, yPos, paint);
     }
 
-    public void startScoreActivity() {
-        Score score = snekController.getScore();
-
+    public void startScoreActivity(Score score) {
         Intent intent = new Intent(getContext(), ScoreActivity.class);
         intent.putExtra("score", score.getScore());
         getContext().startActivity(intent);

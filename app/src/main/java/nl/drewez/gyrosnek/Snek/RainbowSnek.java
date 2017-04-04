@@ -14,7 +14,7 @@ public class RainbowSnek extends Snek implements ISnek {
     public RainbowSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
 
-        multiplier = 1.2;
+        multiplier = 5;
         snekPartType = RainbowSnekPart.class;
     }
 
