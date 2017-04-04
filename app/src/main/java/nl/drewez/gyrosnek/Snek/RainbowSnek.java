@@ -8,18 +8,14 @@ import nl.drewez.gyrosnek.Snek.SnekPart.RainbowSnekPart;
 import nl.drewez.gyrosnek.SnekFood.ISnekFood;
 
 public class RainbowSnek extends Snek implements ISnek {
-    protected static final double multiplier = 1.2;
-    protected static final Class snekPartType = RainbowSnekPart.class;
-
     private static int moves = 0;
     private int maxMoves = 50;
 
-    public RainbowSnek(Context context) {
-        super(context);
-    }
-
     public RainbowSnek(Context context, ISnekPart[] currentSnekParts, Score currentScore) {
         super(context, currentSnekParts, currentScore);
+
+        multiplier = 5;
+        snekPartType = RainbowSnekPart.class;
     }
 
     @Override
