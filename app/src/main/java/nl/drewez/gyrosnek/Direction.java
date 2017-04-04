@@ -8,6 +8,10 @@ public enum Direction {
     Down,
     Left;
 
+    /**
+    * returns direction in string
+    * @return string of direction
+    */
     @Override
     public String toString() {
         switch (this) {
@@ -24,6 +28,10 @@ public enum Direction {
         }
     }
 
+    /**
+    * returns opposite direction
+    * @return opposite direction
+    */
     public Direction getOpposite() {
         switch (this) {
             case Up:
