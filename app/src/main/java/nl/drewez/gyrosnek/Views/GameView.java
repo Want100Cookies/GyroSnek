@@ -142,8 +142,6 @@ public class GameView extends View {
                     blockWidth + x,
                     blockHeight + y);
             image.draw(canvas);
-
-            Log.d(TAG, "Draw " + drawable.getClass().getSimpleName() + " on " + x + ", " + y + " with blocksize: " + blockWidth + "x" + blockHeight);
         }
     }
 
@@ -152,8 +150,6 @@ public class GameView extends View {
         boolean result = mDetector.onTouchEvent(event);
         if (!result) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d(TAG, "onTouchEvent action = action up (X = " + event.getX() + ")");
-
                 if (paused) {
                     if (getXForBlock(cols / 2) > event.getX()) {
                         snekController.start();
@@ -171,8 +167,6 @@ public class GameView extends View {
                 return true;
             }
         }
-
-        Log.d(TAG, "onTouchEvent result:" + result);
 
         return result;
     }

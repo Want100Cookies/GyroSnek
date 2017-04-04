@@ -86,8 +86,6 @@ public class Snek implements ISnek {
         // Check if we can move (returns null if not)
         currentPixel = canSnekMove(currentPixel, direction);
 
-        Log.d(TAG, "Result of canSnekMove: " + currentPixel);
-
         if (currentPixel == null) {
             return false;
         }
